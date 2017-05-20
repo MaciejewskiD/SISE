@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         
        int[][] table = new int[4][4];
-       table = Data.loadDataFromFile("file");
+       table = Data.loadFile("file");
         for (int i = 0; i < table.length; i++) {
             System.err.println();
             for (int j = 0; j < 4; j++) {
