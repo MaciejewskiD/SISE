@@ -8,7 +8,9 @@ package siseprojects.sise15;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,21 +27,71 @@ public class Solution {
         {13, 14, 15, 0},
     };
     
-    public static char[] directions = new char[]{'G', 'D', 'L', 'P'};
+    public static char[] directions = new char[]{'U', 'D', 'L', 'R'};
     private List<Node> visited;
     private boolean result;
     private int depth;
     private int calculated = 0;
     private int visitedNodes=0;
     private String solutionPath;
-    public List<String> outputList = new ArrayList<String>();
+    public List<String> outputList = new ArrayList<>();
+    private String output;
+    
+    public void setOutput(String output){
+        this.output = output;
+    }
+    
+    public void BFS(Node source, char[] order){
+        order = reverseTable(order);
+        depth =0;
+        List<Node> children = new ArrayList<>();
+        visited = new ArrayList<>();
+        Queue<Node> nextToVisit = new LinkedList<>();
+        nextToVisit.add(source);
+        calculated = 1;
+        visitedNodes = 0;
+        result =  false;
+        do{
+            Node actual = nextToVisit.remove();
+            depth = getMaxDepth(depth, actual);
+            if(!visited.contains(actual)){
+                visited.add(actual);
+                visitedNodes ++;
+            }
+            if(Arrays.deepEquals(actual.getBoard(), resultArray)){
+                result = true; 
+                getPath(actual);
+                break;
+            }
+            else{
+                children = actual.generateChildren();
+                for(int i=0; i<order.length; i++){
+                    for(Node child : children){
+                        if(order[i] == child.getDirection()){
+                            if(!visited.contains(child)){
+                                nextToVisit.add(child);
+                                calculated++;
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }while(!nextToVisit.isEmpty());
+        
+        outputList.add("Glebokosc: " + depth + "\n");
+        System.out.println("BFS glebokos przeszukiwania :  "+ depth + "\n");
+        if(!result){
+            System.out.println("Brak rozwiazania");
+            outputList.add("-1");
+        }
+    }
     
     public void DFS(Node actual , char[] order){
         order = reverseTable(order);
         int recursiveNum=0;
         visited = new ArrayList<>();
-        DFS(actual, order, recursiveNum);
-        
+        DFS(actual, order, recursiveNum);     
     }
     
     public void DFS(Node actual, char[] order, int recursiveNum){
@@ -74,8 +126,13 @@ public class Solution {
         }
              
      }
+        if(!result){
+            System.out.println("Nie znaleziono rozwiazania");
+            outputList.add("-1");
+        }
     }    
-    public void getPath(Node actual){
+    
+    public void getPath(Node actual ){
         
         while(actual.haveParent()){
             solutionPath += actual.getDirection();
@@ -89,7 +146,7 @@ public class Solution {
         }
         
         try {
-            Data.saveFile(solutionPath);
+            Data.saveFile(solutionPath, output);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Solution.class.getName()).log(Level.SEVERE, null, ex);
         }

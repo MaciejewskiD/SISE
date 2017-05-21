@@ -46,8 +46,8 @@ public class Data {
         return startingArray;
     
     }
-     public static void saveFile(String pathToResult) throws FileNotFoundException {
-        String outputPath = "output.txt";
+     public static void saveFile(String pathToResult, String output) throws FileNotFoundException {
+        String outputPath = output;
         try (PrintWriter out = new PrintWriter(outputPath)) {
             out.println(pathToResult);
         }

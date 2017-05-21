@@ -92,7 +92,7 @@ public class Node {
 
         int temp = childsArray[zeroY][zeroX];
         switch (direction) {
-            case 'G':
+            case 'U':
                 childsArray[zeroY][zeroX] = childsArray[zeroY - 1][zeroX];
                 childsArray[zeroY - 1][zeroX] = temp;
                 break;
@@ -100,7 +100,7 @@ public class Node {
                 childsArray[zeroY][zeroX] = childsArray[zeroY + 1][zeroX];
                 childsArray[zeroY + 1][zeroX] = temp;
                 break;
-            case 'P':
+            case 'R':
                 childsArray[zeroY][zeroX] = childsArray[zeroY][zeroX + 1];
                 childsArray[zeroY][zeroX + 1] = temp;
                 break;
@@ -119,7 +119,7 @@ public class Node {
         ArrayList<Node> childerNodes = new ArrayList<Node>();
         
         if (canMoveUp()) {
-            childerNodes.add(new Node(moveElement('G'), 'G', id , depth));
+            childerNodes.add(new Node(moveElement('U'), 'U', id , depth));
         }
         if (canMoveDown()) {
             childerNodes.add(new Node(moveElement('D'), 'D', id, depth));
@@ -128,7 +128,7 @@ public class Node {
             childerNodes.add(new Node(moveElement('L'), 'L', id, depth));
         }
         if (canMoveRight()) {
-            childerNodes.add(new Node(moveElement('P'), 'P', id, depth));
+            childerNodes.add(new Node(moveElement('R'), 'R', id, depth));
         }
         return childerNodes;
     }
