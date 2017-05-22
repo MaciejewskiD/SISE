@@ -25,6 +25,8 @@ public class Node {
     private char direction; 
     private int depth ;
     private boolean haveParent;
+    private int cost = 0;
+
     
     public Node(int[][] board){
         this.board = board;
@@ -237,6 +239,13 @@ public class Node {
         this.haveParent = haveParent;
     }
      
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 }
 
 //wwwwwwwwwwwwwwwww

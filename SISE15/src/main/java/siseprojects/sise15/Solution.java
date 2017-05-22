@@ -40,6 +40,39 @@ public class Solution {
         this.output = output;
     }
 
+    public void Astar(Node source, String heur) {
+        Queue<Node> open = new LinkedList<>();
+        List<Node> close = new ArrayList<>();
+        int price = 222222;
+        Node theBest = null;
+        open.add(source);
+        while (!open.isEmpty()) {
+//            for (int i = 0; i < open.size(); i++) {
+//                if(open.get)
+//            }
+            Node actual = open.remove();
+            if (!open.contains(actual)) {
+                close.add(actual);
+                visitedNodes++;
+            }
+            if (Arrays.deepEquals(actual.getBoard(), resultArray)) {
+                getPath(actual);
+                result = true;
+                break;
+            } else {
+                List<Node> children = new ArrayList<>();
+                children = actual.generateChildren();
+                for (Node child : children) {
+                    child.setCost(Manhattan.calculateDistance(child.getBoard()));
+                    open.add(child);
+                }
+
+            }
+
+        }
+
+    }
+
     public void BFS(Node source, char[] order) {
         order = reverseTable(order);
         depth = 0;
@@ -149,8 +182,10 @@ public class Solution {
 
         try {
             Data.saveFile(convertResultPath(solutionPath), output, convertResultPath(solutionPath).length());
+
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Solution.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Solution.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
         outputList.add("Dlugosc rozwiazania: " + convertResultPath(solutionPath).length() + "\n");
