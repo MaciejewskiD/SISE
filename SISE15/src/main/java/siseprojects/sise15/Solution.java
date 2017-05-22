@@ -155,7 +155,7 @@ public class Solution {
         outputList.add("Odwiedzone: " + visitedNodes + "\n");
         System.out.println("Ilosc odwiedzonych wezlow: " + visitedNodes);
         outputList.add("Przetworzone: " + calculated + "\n");
-        System.out.println("Ilosc przetworzonych wezlow: " + visitedNodes);
+        System.out.println("Ilosc przetworzonych wezlow: " + calculated);
     }
     
     public String resultPath(String resultPath) { ////?????????????????????????????????????
