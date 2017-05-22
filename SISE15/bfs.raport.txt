@@ -1,0 +1,4 @@
+Odwiedzone: 77
+Przetworzone: 163
+Glebokosc: 0
+Czas przetwarzania: 16.0 ms

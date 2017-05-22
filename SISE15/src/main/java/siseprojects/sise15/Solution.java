@@ -19,56 +19,54 @@ import java.util.logging.Logger;
  * @author wojta
  */
 public class Solution {
-    
+
     public static int[][] resultArray = new int[][]{
         {1, 2, 3, 4},
         {5, 6, 7, 8},
         {9, 10, 11, 12},
-        {13, 14, 15, 0},
-    };
-    
+        {13, 14, 15, 0},};
+
     public static char[] directions = new char[]{'U', 'D', 'L', 'R'};
     private List<Node> visited;
     private boolean result;
     private int depth;
     private int calculated = 0;
-    private int visitedNodes=0;
+    private int visitedNodes = 0;
     private String solutionPath;
     public List<String> outputList = new ArrayList<>();
     private String output;
-    
-    public void setOutput(String output){
+
+    public void setOutput(String output) {
         this.output = output;
     }
-    
-    public void BFS(Node source, char[] order){
+
+    public void BFS(Node source, char[] order) {
         order = reverseTable(order);
-        depth =0;
+        depth = 0;
         List<Node> children = new ArrayList<>();
         visited = new ArrayList<>();
         Queue<Node> nextToVisit = new LinkedList<>();
         nextToVisit.add(source);
         calculated = 1;
         visitedNodes = 0;
-        result =  false;
-        do{
+        result = false;
+        do {
             Node actual = nextToVisit.remove();
             depth = getMaxDepth(depth, actual);
-            if(!visited.contains(actual)){
+            if (!visited.contains(actual)) {
                 visited.add(actual);
-                visitedNodes ++;
+                visitedNodes++;
             }
-            if(Arrays.deepEquals(actual.getBoard(), resultArray)){
-                result = true; 
+            if (Arrays.deepEquals(actual.getBoard(), resultArray)) {
+                result = true;
                 getPath(actual);
                 break;
-            }
-            else{
+            } else {
                 children = actual.generateChildren();
-                for(int i=0; i<order.length; i++){
-                    for(Node child : children){
-                        if(order[i] == child.getDirection()){
-                            if(!visited.contains(child)){
+                for (int i = 0; i < order.length; i++) {
+                    for (Node child : children) {
+                        if (order[i] == child.getDirection()) {
+                            if (!visited.contains(child)) {
                                 nextToVisit.add(child);
                                 calculated++;
                             }
@@ -76,88 +74,90 @@ public class Solution {
                     }
                 }
             }
-            
-        }while(!nextToVisit.isEmpty());
-        
+
+        } while (!nextToVisit.isEmpty());
+
         outputList.add("Glebokosc: " + depth + "\n");
-        System.out.println("BFS glebokos przeszukiwania :  "+ depth + "\n");
-        if(!result){
+        System.out.println("BFS glebokos przeszukiwania :  " + depth + "\n");
+        if (!result) {
             System.out.println("Brak rozwiazania");
             outputList.add("-1");
         }
     }
-    
-    public void DFS(Node actual , char[] order){
+
+    public void DFS(Node actual, char[] order) {
         order = reverseTable(order);
-        int recursiveNum=0;
+        int recursiveNum = 0;
         visited = new ArrayList<>();
-        DFS(actual, order, recursiveNum);     
+        DFS(actual, order, recursiveNum);
+        calculated = 1;
+        visitedNodes = 0;
+        if(!result){
+            
+            outputList.add("-1");
+        }
+
     }
-    
-    public void DFS(Node actual, char[] order, int recursiveNum){
-        
+
+    public void DFS(Node actual, char[] order, int recursiveNum) {
+
         char[] nodeOrder = order;
         List<Node> children = new ArrayList<>();
         depth = getMaxDepth(depth, actual);
-        if(!visited.contains(actual)){
+        if (!visited.contains(actual)) {
             visited.add(actual);
-            visitedNodes ++;
+            visitedNodes++;
         }
-        if(Arrays.deepEquals(actual.getBoard(), resultArray)){
+        if (Arrays.deepEquals(actual.getBoard(), resultArray)) {
             result = true;
             getPath(actual);
+        } else if (!result) {
+            recursiveNum++;
+            children = actual.generateChildren();
         }
-        else if(!result){
-           recursiveNum++;
-           children = actual.generateChildren();           
-        }
-        for(int i=nodeOrder.length -1 ; i>=0 ; i--){
-            if(!children.isEmpty()){
-                for(Node child : children){
-                    if(child.getDirection() == nodeOrder[i]){
-                       if(!visited.contains(child)){
-                           calculated++;
-                           if(recursiveNum < 21){//TO JEST MINIMALNA LICZBA REKURENCJI
-                              DFS(child, order,recursiveNum);
-                       } 
+        for (int i = nodeOrder.length - 1; i >= 0; i--) {
+            if (!children.isEmpty()) {
+                for (Node child : children) {
+                    if (child.getDirection() == nodeOrder[i]) {
+                        if (!visited.contains(child)) {
+                            calculated++;
+                            if (recursiveNum < 20) {//TO JEST MINIMALNA LICZBA REKURENCJI
+                                DFS(child, order, recursiveNum);
+                            }
+                        }
                     }
                 }
             }
+
         }
-             
-     }
-        if(!result){
-            System.out.println("Nie znaleziono rozwiazania");
-            outputList.add("-1");
-        }
-    }    
-    
-    public void getPath(Node actual ){
-        
-        while(actual.haveParent()){
+    }
+
+    public void getPath(Node actual) {
+
+        while (actual.haveParent()) {
             solutionPath += actual.getDirection();
-            for(Node n : visited){
-                if(actual.getParentID() == n.getId()){
+            for (Node n : visited) {
+                if (actual.getParentID() == n.getId()) {
                     actual = n;
                     break;
                 }
-            } 
-            
+            }
+
         }
-        
+
         try {
             Data.saveFile(solutionPath, output);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Solution.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         System.out.println("Droga jaka pokonalem aby zwyciezyc: " + resultPath(solutionPath));
         outputList.add("Odwiedzone: " + visitedNodes + "\n");
         System.out.println("Ilosc odwiedzonych wezlow: " + visitedNodes);
         outputList.add("Przetworzone: " + calculated + "\n");
-        System.out.println("Ilosc przetworzonych wezlow: " + visitedNodes);
+        System.out.println("Ilosc przetworzonych wezlow: " + calculated);
     }
-    
+
     public String resultPath(String resultPath) { ////?????????????????????????????????????
         String newResultPath = null;
         if (resultPath != null) {
@@ -166,21 +166,24 @@ public class Solution {
                     break;
                 } else if (newResultPath == null) {
                     newResultPath = Character.toString(resultPath.charAt(i));
-                } else
+                } else {
                     newResultPath += resultPath.charAt(i);
+                }
             }
             return newResultPath;
-        } else
+        } else {
             return "nie wygenerowalem zadnej drogi";
+        }
     }
-    
+
     public int getMaxDepth(int depth, Node node) {
         if (depth < node.getDepth()) {
             depth = node.getDepth();
         }
         return depth;
     }
-     public char[] reverseTable(char[] table) {
+
+    public char[] reverseTable(char[] table) {
         char[] tmp = new char[table.length];
         for (int i = 0; i < table.length; i++) {
             tmp[table.length - 1 - i] = table[i];

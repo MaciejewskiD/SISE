@@ -49,7 +49,9 @@ public class Data {
      public static void saveFile(String pathToResult, String output) throws FileNotFoundException {
         String outputPath = output;
         try (PrintWriter out = new PrintWriter(outputPath)) {
+          
             out.println(pathToResult);
+              out.println("23");
         }
     }
     
