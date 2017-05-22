@@ -46,12 +46,12 @@ public class Data {
         return startingArray;
     
     }
-     public static void saveFile(String pathToResult, String output) throws FileNotFoundException {
+     public static void saveFile(String pathToResult, String output, Integer length) throws FileNotFoundException {
         String outputPath = output;
         try (PrintWriter out = new PrintWriter(outputPath)) {
           
+            out.println(length);
             out.println(pathToResult);
-              out.println("23");
         }
     }
     

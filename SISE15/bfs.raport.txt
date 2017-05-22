@@ -1,4 +1,5 @@
+Dlugosc rozwiazania: 5
 Odwiedzone: 77
 Przetworzone: 163
-Glebokosc: 0
-Czas przetwarzania: 16.0 ms
+Glebokosc: 5
+Czas przetwarzania: 15.0 ms

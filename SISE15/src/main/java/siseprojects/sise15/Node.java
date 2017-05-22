@@ -23,7 +23,7 @@ public class Node {
     private int zeroX;
     private int zeroY;
     private char direction; 
-    private int depth;
+    private int depth ;
     private boolean haveParent;
     
     public Node(int[][] board){
@@ -41,7 +41,6 @@ public class Node {
         this.depth = depth + 1;
         this.board = board; 
         this.direction = direction;
-        this.depth = depth;
         this.parentID = parentID;
         this.boardLengthX = board[0].length;
         this.boardLengthY = board.length;

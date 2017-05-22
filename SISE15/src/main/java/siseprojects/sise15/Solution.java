@@ -92,9 +92,11 @@ public class Solution {
         DFS(actual, order, recursiveNum);
         calculated = 1;
         visitedNodes = 0;
-        if(!result){
-            
+        if (!result) {
+
             outputList.add("-1");
+        } else {
+            outputList.add("Glebokosc: " + depth + "\n");
         }
 
     }
@@ -121,7 +123,7 @@ public class Solution {
                     if (child.getDirection() == nodeOrder[i]) {
                         if (!visited.contains(child)) {
                             calculated++;
-                            if (recursiveNum < 20) {//TO JEST MINIMALNA LICZBA REKURENCJI
+                            if (recursiveNum < 9) {//TO JEST MINIMALNA LICZBA REKURENCJI
                                 DFS(child, order, recursiveNum);
                             }
                         }
@@ -146,16 +148,35 @@ public class Solution {
         }
 
         try {
-            Data.saveFile(solutionPath, output);
+            Data.saveFile(convertResultPath(solutionPath), output, convertResultPath(solutionPath).length());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Solution.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        outputList.add("Dlugosc rozwiazania: " + convertResultPath(solutionPath).length() + "\n");
         System.out.println("Droga jaka pokonalem aby zwyciezyc: " + resultPath(solutionPath));
         outputList.add("Odwiedzone: " + visitedNodes + "\n");
         System.out.println("Ilosc odwiedzonych wezlow: " + visitedNodes);
         outputList.add("Przetworzone: " + calculated + "\n");
         System.out.println("Ilosc przetworzonych wezlow: " + calculated);
+    }
+
+    public String convertResultPath(String resultPath) {
+        String newResultPath = null;
+        if (resultPath != null) {
+            for (int i = resultPath.length() - 1; i >= 0; i--) {
+                if (resultPath.charAt(i) == 'l') {
+                    break;
+                } else if (newResultPath == null) {
+                    newResultPath = Character.toString(resultPath.charAt(i));
+                } else {
+                    newResultPath += resultPath.charAt(i);
+                }
+            }
+            return newResultPath;
+        } else {
+            return "nie wygenerowalem zadnej drogi";
+        }
     }
 
     public String resultPath(String resultPath) { ////?????????????????????????????????????
