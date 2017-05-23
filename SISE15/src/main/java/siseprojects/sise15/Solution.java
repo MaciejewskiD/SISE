@@ -48,27 +48,31 @@ public class Solution {
         int price;
         Node theBest = null;
         open.add(source);
+        calculated ++;
+        Node actual = null;
+        int size;
+        System.err.println("COST SOURCE " + source.getCost());
         while (!open.isEmpty()) {
             price = 223232;
-            int size = open.size();
+
+            size = open.size();
             for (int i = 0; i < size; i++) {
                 tmp = open.remove();
-//                for (int j = 0; j < tmp.getBoard().length; j++) {
-//                    System.err.println(" ");
-//                    for (int k = 0; k < tmp.getBoard().length; k++) {
-//
-//                        System.err.println(tmp.getBoard()[j][k]);
-//                    }
-//                }
-                System.err.println("PRICE " + price);
-                
-                System.err.println("GET " + tmp.getCost());
-                if (tmp.getCost() <= price) {
+                int cost = tmp.getCost();
+                if (cost <= price) {
                     price = tmp.getCost();
-                    theBest = tmp;
+                    if (!close.contains(tmp)) {
+                        open.add(tmp);
+                    }
+                        theBest = tmp;
 
+                } else {
+                    open.add(tmp);
                 }
             }
+            actual = theBest;
+            close.add(actual);
+
 //            for (int j = 0; j < theBest.getBoard().length; j++) {
 //                System.err.println(" ");
 //                for (int k = 0; k < theBest.getBoard().length; k++) {
@@ -76,9 +80,7 @@ public class Solution {
 //                    System.err.println(theBest.getBoard()[j][k]);
 //                }
 //            }
-            Node actual = theBest;
-            if (!open.contains(actual)) {
-                close.add(actual);
+            if (!visited.contains(actual)) {
                 visited.add(actual);
                 visitedNodes++;
             }
@@ -90,17 +92,19 @@ public class Solution {
                 List<Node> children = new ArrayList<>();
                 children = actual.generateChildren();
 
-                open.clear();
                 for (Node child : children) {
                     child.setCost(Manhattan.calculateDistance(child.getBoard()));
-                    open.add(child);
+                    if (!close.contains(child)) {
+                        open.add(child);
+                        calculated++;
+                    }
                 }
-
             }
 
         }
-
     }
+
+    
 
     public void BFS(Node source, char[] order) {
         order = reverseTable(order);
