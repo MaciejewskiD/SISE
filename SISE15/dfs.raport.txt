@@ -1,5 +1,5 @@
-Dlugosc rozwiazania: 1
-Odwiedzone: 361
-Przetworzone: 764
-Glebokosc: 8
-Czas przetwarzania: 31.0 ms
+Dlugosc rozwiazania: 3
+Odwiedzone: 4
+Przetworzone: 3
+Glebokosc: 3
+Czas przetwarzania: 6.0 ms

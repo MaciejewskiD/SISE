@@ -1,5 +1,5 @@
 Dlugosc rozwiazania: 1
-Odwiedzone: 3
-Przetworzone: 7
+Odwiedzone: 4
+Przetworzone: 9
 Glebokosc: 1
 Czas przetwarzania: 0.0 ms

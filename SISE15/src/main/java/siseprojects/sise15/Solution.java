@@ -93,7 +93,13 @@ public class Solution {
                 children = actual.generateChildren();
 
                 for (Node child : children) {
+                    if(heur == "manh"){
                     child.setCost(Manhattan.calculateDistance(child.getBoard()));
+                    }
+                    else{
+                        
+                    child.setCost(Hamming.calculateDistance(child.getBoard()));
+                    }
                     if (!close.contains(child)) {
                         open.add(child);
                         calculated++;
