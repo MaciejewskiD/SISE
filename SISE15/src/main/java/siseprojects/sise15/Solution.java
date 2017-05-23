@@ -43,28 +43,30 @@ public class Solution {
     public void Astar(Node source, String heur) {
         Queue<Node> open = new LinkedList<>();
         List<Node> close = new ArrayList<>();
+        visited = new ArrayList<>();
         Node tmp = null;
-        int price = 222222;
+        int price;
         Node theBest = null;
         open.add(source);
         while (!open.isEmpty()) {
-            for (int i = 0; i < open.size(); i++) {
+            price = 223232;
+            int size = open.size();
+            for (int i = 0; i < size; i++) {
                 tmp = open.remove();
-            for (int j = 0; j < tmp.getBoard().length; j++) {
-                System.err.println(" ");
-                for (int k = 0; k < tmp.getBoard().length; k++) {
-
-                    System.err.println(tmp.getBoard()[j][k]);
-                }
-            }
-//                System.err.println("PRICE "+ tmp.getCost());
+//                for (int j = 0; j < tmp.getBoard().length; j++) {
+//                    System.err.println(" ");
+//                    for (int k = 0; k < tmp.getBoard().length; k++) {
+//
+//                        System.err.println(tmp.getBoard()[j][k]);
+//                    }
+//                }
+                System.err.println("PRICE " + price);
+                
+                System.err.println("GET " + tmp.getCost());
                 if (tmp.getCost() <= price) {
                     price = tmp.getCost();
-                    close.add(theBest);
                     theBest = tmp;
 
-                } else {
-                    close.add(tmp);
                 }
             }
 //            for (int j = 0; j < theBest.getBoard().length; j++) {
@@ -75,10 +77,11 @@ public class Solution {
 //                }
 //            }
             Node actual = theBest;
-//            if (!open.contains(actual)) {
-//                close.add(actual);
-//                visitedNodes++;
-//            }
+            if (!open.contains(actual)) {
+                close.add(actual);
+                visited.add(actual);
+                visitedNodes++;
+            }
             if (Arrays.deepEquals(actual.getBoard(), resultArray)) {
                 getPath(actual);
                 result = true;
@@ -89,13 +92,6 @@ public class Solution {
 
                 open.clear();
                 for (Node child : children) {
-//                    for (int j = 0; j < child.getBoard().length; j++) {
-//                        System.err.println(" ");
-//                        for (int k = 0; k < child.getBoard().length; k++) {
-//
-//                            System.err.println(child.getBoard()[j][k]);
-//                        }
-//                    }
                     child.setCost(Manhattan.calculateDistance(child.getBoard()));
                     open.add(child);
                 }

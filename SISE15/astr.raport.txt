@@ -1,4 +1,4 @@
-Dlugosc rozwiazania: 30
-Odwiedzone: 0
+Dlugosc rozwiazania: 2
+Odwiedzone: 3
 Przetworzone: 0
-Czas przetwarzania: 47.0 ms
+Czas przetwarzania: 16.0 ms
